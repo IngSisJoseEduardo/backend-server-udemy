@@ -1,0 +1,22 @@
+{
+  "name": "backendserver",
+  "version": "1.0.0",
+  "description": "servidor backend del curso angular avanzado",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "JEMP"
+  ],
+  "author": "JEMP",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
