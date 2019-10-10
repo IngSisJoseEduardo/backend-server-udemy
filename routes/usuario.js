@@ -9,9 +9,13 @@ var mdAutentication = require('../middlewares/autenticacion');
 * ======================================
 */
 app.get('/', (req, res, next) => {
-
-    USUARIO.find({}, 'nombre email img role')
-            .exec(
+    const numResult = 5;
+    var desde = req.query.desde || 0;
+    desde = Number(desde);
+    USUARIO.find({}, 'nombre email img role') // busca y regresa los datos de las relaciones
+            .skip(desde) //se salta los resultados indicados
+            .limit(numResult) // limita la consulta a 5 resultados
+            .exec( // ejecuta la consulta
                 (err, usuarios)=> {
                 if( err){
                     return res.status(500).json({
@@ -21,9 +25,12 @@ app.get('/', (req, res, next) => {
                     });
                 }
 
-                res.status(200).json({
-                    ok: true,
-                    usuarios: usuarios
+                USUARIO.count({},(err, count) => {
+                    return res.status(200).json({
+                        ok: true,
+                        usuarios: usuarios,
+                        total: count
+                    });
                 });
             });
 });
@@ -35,7 +42,7 @@ app.get('/', (req, res, next) => {
 * ======================================
 */
 
-app.post('/', mdAutentication.verificarToken ,(req, res) => {
+app.post('/',(req, res) => {
     var body = req.body;
     var usuario = new USUARIO({
         nombre: body.nombre,
@@ -85,7 +92,7 @@ app.put('/:id', mdAutentication.verificarToken, (req, res) => {
             return res.status(400).json({
                 ok: false,
                 mensaje: `Usuario con ${id} no existe`,
-                errors: { message: 'No existe un usuario con ese ID'}
+
             });
         }
         usuario.nombre = body.nombre;
@@ -95,7 +102,7 @@ app.put('/:id', mdAutentication.verificarToken, (req, res) => {
             if( err ) {
                 return res.status(400).json({
                     ok:false,
-                    mensaje: 'Error ala ctualizar usuario',
+                    mensaje: 'Error al  ctualizar usuario',
                     errors: err
                 });
             }

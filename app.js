@@ -1,13 +1,18 @@
 // Requires
-var express = require('express');
-var mongoose = require('mongoose');
+var express    = require('express');
+var mongoose   = require('mongoose');
 var bodyParser = require('body-parser');
 
 
 // importat rutas
-var appRoutes = require('./routes/app');
+var appRoutes      = require('./routes/app');
 var usuariosRoutes = require('./routes/usuario');
-var loginRoutes = require('./routes/login');
+var hospitalRoutes = require('./routes/hospital');
+var medicoRoutes   = require('./routes/medico');
+var loginRoutes    = require('./routes/login');
+var busquedaRoutes = require('./routes/busqueda');
+var uploadreoutes  = require('./routes/upload');
+var imagenesRoutes = require('./routes/imagenes');
 // Inicializar variables
 var app = express();
 
@@ -26,7 +31,13 @@ console.log('BAse de datos: \x1b[32m%s\x1b[0m',' online');
 
 //Rutas
 app.use('/usuario', usuariosRoutes);
+app.use('/hospital', hospitalRoutes);
+app.use('/medico', medicoRoutes);
 app.use('/login', loginRoutes);
+app.use('/busqueda', busquedaRoutes);
+app.use('/upload', uploadreoutes);
+app.use('/img', imagenesRoutes);
+
 app.use('/',appRoutes);
 
 // Escuchar peticiones
